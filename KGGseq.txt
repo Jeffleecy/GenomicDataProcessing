@@ -1,0 +1,114 @@
+###Date: TODAY
+###Name: Chen-Yu Lee
+###Input Data: VCF
+###            PED
+###purpose: PHENOTYPE projects with basic QC & individual burden
+###purpose: For one trio   --> basic QC + MAF < 0.5                                                             
+#                          ---> OMIM annotation
+#                          ---> COSMIC annotation                                                               
+#                          ---> variants prediction                                                             
+#--lib-update
+#--no-lib-check
+--vcf-file VCF
+#--ped-file PED
+#--no-qc
+#--filter-model case-unique  \
+#--gty-qual 20 \
+#--gty-dp 8 \
+#--gty-af-ref 0.05 \
+#--gty-af-het 0.25 \
+#--seq-qual 30 \
+#--seq-mq 20 \
+#--seq-fs 60 \
+#--hwe-all 0.01 \
+#--max-allele 2 \
+# Comments
+--indiv-pheno SampleSubject:0 \
+
+--min-obsa 1 \
+#--min-obs 4 \
+#--ignore-indel \
+
+#--vcf-filter-in PASS,VQSRTrancheSNP90.00to91.00,VQSRTrancheSNP91.00to92.00,VQSRTrancheSNP92.00to93.00,VQSRTrancheSNP93.00to94.00,VQSRTrancheSNP94.00to95.00,VQSRTrancheSNP95.00to96.00,VQSRTrancheSNP96.00to97.00,VQSRTrancheSNP97.00to98.00,VQSRTrancheSNP98.00to99.00,VQSRTrancheSNP99.00to99.90,VQSRTrancheINDEL90.00to99.90 \
+#,VQSRTrancheINDEL95.00to99.00,VQSRTrancheSNP99.50to99.70,VQSRTrancheSNP99.70to99.80,VQSRTrancheSNP99.80to99.90 \
+
+#### Genetic Modes
+#=====================================================================
+#--genotype-filter 3,4,5,6 \ # for dominant
+
+#=====================================================================
+#--genotype-filter 4,7 \ # for denovo
+#--ignore-homo \ # for denovo
+
+#=====================================================================
+#--genotype-filter 1,2,3,4,6 \ # for recessive plus maternal or paternal, can check the number of affected individuals to determine
+
+#=====================================================================
+#--double-hit-gene-trio-filter \ # for compound heterozygous
+#--ignore-homo \ # for compound heterozygous
+
+#=====================================================================
+--genotype-filter 3 \ # for individual burden
+
+#=====================================================================
+#--unique-gene-filter \
+
+#=====================================================================
+#--ibs-case-filter 1 \
+
+#=====================================================================
+#--homozygosity-case-filter 1 \
+
+--db-filter exac.eas.sas,1kgeas201305,1kgsas201305,gadexome.eas.sas,gadgenome.eas.sas \
+--rare-allele-freq 0.499999 \
+--db-gene refgene,gencode,knowngene \
+--gene-feature-in 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 \
+--buildver hg19 \
+--out /project/GP1/u3710062/AI_SHARE/Annotation/KGGSeq/XXXX_XXX/TODAY_PARA1_PARA2.DISEASE_SAMPLE.diff 
+--nt 40 \
+--o-vcf \
+#--excel \
+#--genes-in KIF1BP,EDN3,EDNRB,L1CAM,PHOX2B,RET,SOX10,ZEB2,CELSR3,DENND3,DHCR7,ECE1,GDNF,GFRA1,NCLN,NKX2-1,NRG1,NRG3,NUP98,SEMA3C,SEMA3D,TBATA,VCL,ABCC9,ARID1B,ARVCF,BACE2,COMT,CREBBP,DLL3,DNMT3B,DSCAM,ELP1,FZD3,GABRG2,GAL,GAP43,GHRL,IL11,INMT,MAPK10,MBTPS2,MED12,MIR146A,MIR369,NRSN1,NRTN,NTRK3,PIGV,PSPN,PTCH1,RELN,RMRP,RORA,SAMD9,SEMA3A,SLC6A20,SOX2,TCF4,TUBA1A,VAMP5,WNT3A \
+#### Association tests
+############################# Variant-level
+##################################################### chi-squared test
+#--var-assoc \ 
+#--p-value-cutoff 0.05 \
+#--multiple-testing benfdr \
+#--qqplot \
+
+###################################################### rvtest
+#--rvtest-var score,wald,exact,dominantExact,famLRT,famScore,famGrammarGamma,firthc \
+#--rvtest-vcf \
+#--rvtest-remove-set \
+#--phe \ 
+#--cov Sex \
+
+############################# Gene-level
+###################################################### SKAT
+#--skat-gene \
+#--perm-pheno \
+###################################################### rvtest
+#--rvtest-gene cmc,cmat,price,skat[nPerm=1000:alpha=0.001:beta1=1:beta2=20],skato[nPerm=1000:alpha=0.001:beta1=1:beta2=20],zeggini,mb,fp,exactCMC,cmcWald,rarecover,cmat \
+#--rvtest-vcf \
+#--rvtest-remove-set \
+############################# Geneset-level
+#--skat-geneset \
+
+--resource /project/GP1/u3710062/AI_SHARE/software/KGGSeq/20210901/kggseqhg19/resources/ \
+
+#### ANNOTATION
+--mouse-pheno \
+--zebrafish-pheno \
+--ddd-annot \
+--omim-annot \
+--cosmic-annot \
+--scsnv-annot \
+--rsid \
+--dgv-cnv-annot \
+
+#Variant level Prediction
+--db-score dbnsfp \
+--mendel-causing-predict best \
+--no-resource-check \
+--patho-gene-predict \
