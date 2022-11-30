@@ -11,9 +11,22 @@ These codes are based on shell scripts and are executed in the Linux environment
  
 ## Scripts
 #### KGGseq.txt
-   - Input - a VCF or PED file of interest
+   - Input: a VCF or PED file 
+   - Function: filter the variants in the input file according to parameters such as allele frequency, located genes, or VQSR tranches
+   - Output: a VCF file with variants of interest
+   
 #### KGGseq_Submit.sh
+   - Function: initiate the KGGseq software and perform genomic data processing according to the parameters in "KGGseq.txt"
+  
 #### PLINK_VCF_bfiles.sh
+ - Input: a VCF file
+ - Function:
+   - converting vcf files into bfiles  
+   - filtering the variants in bfiles according to parameters such as maximum allele count, allele frequency,  or located chromosomes
+ - Output: .bed/.bim/.fam files (bfiles)
+
 #### PICARD_BedToInterval.sh
+
+
 #### bcftools_splitVCF.sh
 
