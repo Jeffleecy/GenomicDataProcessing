@@ -20,7 +20,7 @@ These codes are based on shell scripts and are executed in the Linux environment
   
 #### PLINK_VCF_bfiles.sh
  - Input: a VCF file
- - Function:
+ - Functions:
    - converting vcf files into bfiles  
    - filtering the variants in bfiles according to parameters such as maximum allele count, allele frequency,  or located chromosomes
  - Output: .bed/.bim/.fam files (bfiles)
